@@ -15,7 +15,6 @@ use GoSwoole\Plugins\Aop\AopConfig;
 use GoSwoole\Plugins\Aop\AopPlugin;
 use GoSwoole\Plugins\Whoops\Aspect\WhoopsAspect;
 use GoSwoole\Plugins\Whoops\Handler\WhoopsHandler;
-use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
 class WhoopsPlugin extends AbstractPlugin
