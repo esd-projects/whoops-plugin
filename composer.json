@@ -1,0 +1,25 @@
+{
+  "require": {
+    "go-swoole/base-server":"~0.1",
+    "go-swoole/aop-plugin": "^0.1",
+    "filp/whoops": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "GoSwoole\\Plugins\\": "src/",
+      "GoSwoole\\Plugins\\Whoops\\ExampleClass\\": "exampleClass/"
+    }
+  },
+  "authors": [
+    {
+      "name": "tmtbe",
+      "email": "896369042@qq.com",
+      "homepage": "https://github.com/tmtbe"
+    }
+  ],
+  "name": "go-swoole/whoops-plugin",
+  "type": "library",
+  "keywords": ["server", "swoole"],
+  "description": "whoops-plugin",
+  "license": "MIT"
+}
