@@ -193,6 +193,7 @@ class WhoopsHandler extends Handler
             "title" => $this->getPageTitle(),
             "name" => explode("\\", $inspector->getExceptionName()),
             "message" => $inspector->getExceptionMessage(),
+            "previousMessages" => $inspector->getPreviousExceptionMessages(),
             "docref_url" => $inspector->getExceptionDocrefUrl(),
             "code" => $code,
             "plain_exception" => Formatter::formatExceptionPlain($inspector),
