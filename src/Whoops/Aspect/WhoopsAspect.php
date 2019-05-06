@@ -46,7 +46,10 @@ class WhoopsAspect implements Aspect
             $invocation->proceed();
         } catch (\Throwable $e) {
             if ($this->whoopsConfig->isEnable()) {
+                $response->clear();
                 $response->end($this->run->handleException($e));
+            } else {
+                $response->end(null);
             }
         }
         return null;
