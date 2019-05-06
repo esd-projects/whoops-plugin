@@ -24,10 +24,24 @@ class WhoopsPlugin extends AbstractPlugin
      * @var Run
      */
     private $whoops;
+    /**
+     * @var WhoopsConfig
+     */
+    protected $whoopsConfig;
 
-    public function __construct()
+    /**
+     * WhoopsPlugin constructor.
+     * @param WhoopsConfig|null $whoopsConfig
+     * @throws \DI\DependencyException
+     * @throws \ReflectionException
+     */
+    public function __construct(?WhoopsConfig $whoopsConfig = null)
     {
         parent::__construct();
+        if ($whoopsConfig == null) {
+            $whoopsConfig = new WhoopsConfig();
+        }
+        $this->whoopsConfig = $whoopsConfig;
         //需要aop的支持，所以放在aop后加载
         $this->atAfter(AopPlugin::class);
         //由于Aspect排序问题需要在EasyRoutePlugin之前加载
@@ -46,7 +60,9 @@ class WhoopsPlugin extends AbstractPlugin
     /**
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
+     * @throws \DI\DependencyException
      * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ReflectionException
      */
     public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
     {
@@ -64,22 +80,24 @@ class WhoopsPlugin extends AbstractPlugin
      * 在服务启动前
      * @param Context $context
      * @return mixed
+     * @throws \GoSwoole\BaseServer\Exception
      */
     public function beforeServerStart(Context $context)
     {
+        $this->whoopsConfig->merge();
         $serverConfig = $context->getServer()->getServerConfig();
         $this->whoops = new Run();
         $this->whoops->writeToOutput(false);
         $this->whoops->allowQuit(false);
         $handler = new WhoopsHandler();
-        $handler->addResourcePath($serverConfig->getVendorDir()."/filp/whoops/src/Whoops/Resources/");
+        $handler->addResourcePath($serverConfig->getVendorDir() . "/filp/whoops/src/Whoops/Resources/");
         $handler->setPageTitle("出现错误了");
         $this->whoops->pushHandler($handler);
         //AOP注入
         $aopPlugin = $context->getServer()->getPlugManager()->getPlug(AopPlugin::class);
         if ($aopPlugin instanceof AopPlugin) {
             $aopPlugin->getAopConfig()->addIncludePath($serverConfig->getVendorDir() . "/go-swoole/base-server");
-            $aopPlugin->getAopConfig()->addAspect(new WhoopsAspect($this->whoops));
+            $aopPlugin->getAopConfig()->addAspect(new WhoopsAspect($this->whoops,$this->whoopsConfig));
         } else {
             $this->error("没有添加AOP插件，Whoops无法工作");
         }

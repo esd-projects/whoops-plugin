@@ -11,7 +11,7 @@ namespace GoSwoole\Plugins\Whoops\Aspect;
 use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use GoSwoole\BaseServer\Server\Server;
+use GoSwoole\Plugins\Whoops\WhoopsConfig;
 use Whoops\Run;
 
 class WhoopsAspect implements Aspect
@@ -21,9 +21,15 @@ class WhoopsAspect implements Aspect
      */
     private $run;
 
-    public function __construct(Run $run)
+    /**
+     * @var WhoopsConfig
+     */
+    protected $whoopsConfig;
+
+    public function __construct(Run $run, WhoopsConfig $whoopsConfig)
     {
         $this->run = $run;
+        $this->whoopsConfig = $whoopsConfig;
     }
 
     /**
@@ -39,9 +45,9 @@ class WhoopsAspect implements Aspect
         try {
             $invocation->proceed();
         } catch (\Throwable $e) {
-            $log = Server::$instance->getLog();
-            $log->error($e);
-            $response->end($this->run->handleException($e));
+            if ($this->whoopsConfig->isEnable()) {
+                $response->end($this->run->handleException($e));
+            }
         }
         return null;
     }
