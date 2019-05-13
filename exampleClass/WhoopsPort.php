@@ -6,13 +6,13 @@
  * Time: 12:00
  */
 
-namespace GoSwoole\Plugins\Whoops\ExampleClass;
+namespace ESD\Plugins\Whoops\ExampleClass;
 
-use GoSwoole\BaseServer\Exception;
-use GoSwoole\BaseServer\Server\Beans\Request;
-use GoSwoole\BaseServer\Server\Beans\Response;
-use GoSwoole\BaseServer\Server\Beans\WebSocketFrame;
-use GoSwoole\BaseServer\Server\ServerPort;
+use ESD\BaseServer\Exception;
+use ESD\BaseServer\Server\Beans\Request;
+use ESD\BaseServer\Server\Beans\Response;
+use ESD\BaseServer\Server\Beans\WebSocketFrame;
+use ESD\BaseServer\Server\ServerPort;
 
 class WhoopsPort extends ServerPort
 {

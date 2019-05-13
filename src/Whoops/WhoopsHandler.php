@@ -6,7 +6,7 @@
  * Time: 18:44
  */
 
-namespace GoSwoole\Plugins\Whoops;
+namespace ESD\Plugins\Whoops;
 
 
 use Whoops\Handler\PrettyPageHandler;

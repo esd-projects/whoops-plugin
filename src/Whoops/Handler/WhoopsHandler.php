@@ -6,9 +6,9 @@
  * Time: 下午4:58
  */
 
-namespace GoSwoole\Plugins\Whoops\Handler;
+namespace ESD\Plugins\Whoops\Handler;
 
-use GoSwoole\BaseServer\Server\Beans\Request;
+use ESD\BaseServer\Server\Beans\Request;
 use InvalidArgumentException;
 use RuntimeException;
 use UnexpectedValueException;

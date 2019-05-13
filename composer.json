@@ -1,13 +1,13 @@
 {
   "require": {
-    "go-swoole/base-server":"~0.1",
-    "go-swoole/aop-plugin": "~0.1",
+    "esd/base-server":"~0.1",
+    "esd/aop-plugin": "~0.1",
     "filp/whoops": "^2.3"
   },
   "autoload": {
     "psr-4": {
-      "GoSwoole\\Plugins\\": "src/",
-      "GoSwoole\\Plugins\\Whoops\\ExampleClass\\": "exampleClass/"
+      "ESD\\Plugins\\": "src/",
+      "ESD\\Plugins\\Whoops\\ExampleClass\\": "exampleClass/"
     }
   },
   "authors": [
@@ -17,7 +17,7 @@
       "homepage": "https://github.com/tmtbe"
     }
   ],
-  "name": "go-swoole/whoops-plugin",
+  "name": "esd/whoops-plugin",
   "type": "library",
   "keywords": ["server", "swoole"],
   "description": "whoops-plugin",

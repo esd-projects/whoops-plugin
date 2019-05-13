@@ -6,15 +6,15 @@
  * Time: 18:43
  */
 
-namespace GoSwoole\Plugins\Whoops;
+namespace ESD\Plugins\Whoops;
 
-use GoSwoole\BaseServer\Server\Context;
-use GoSwoole\BaseServer\Server\Plugin\AbstractPlugin;
-use GoSwoole\BaseServer\Server\Plugin\PluginInterfaceManager;
-use GoSwoole\Plugins\Aop\AopConfig;
-use GoSwoole\Plugins\Aop\AopPlugin;
-use GoSwoole\Plugins\Whoops\Aspect\WhoopsAspect;
-use GoSwoole\Plugins\Whoops\Handler\WhoopsHandler;
+use ESD\BaseServer\Server\Context;
+use ESD\BaseServer\Server\Plugin\AbstractPlugin;
+use ESD\BaseServer\Server\Plugin\PluginInterfaceManager;
+use ESD\Plugins\Aop\AopConfig;
+use ESD\Plugins\Aop\AopPlugin;
+use ESD\Plugins\Whoops\Aspect\WhoopsAspect;
+use ESD\Plugins\Whoops\Handler\WhoopsHandler;
 use Whoops\Run;
 
 class WhoopsPlugin extends AbstractPlugin
@@ -45,7 +45,7 @@ class WhoopsPlugin extends AbstractPlugin
         //需要aop的支持，所以放在aop后加载
         $this->atAfter(AopPlugin::class);
         //由于Aspect排序问题需要在EasyRoutePlugin之前加载
-        $this->atBefore("GoSwoole\Plugins\EasyRoute\EasyRoutePlugin");
+        $this->atBefore("ESD\Plugins\EasyRoute\EasyRoutePlugin");
     }
 
     /**
@@ -61,7 +61,7 @@ class WhoopsPlugin extends AbstractPlugin
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
      * @throws \DI\DependencyException
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      * @throws \ReflectionException
      */
     public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
@@ -70,7 +70,7 @@ class WhoopsPlugin extends AbstractPlugin
         $serverConfig = $pluginInterfaceManager->getServer()->getServerConfig();
         $aopPlugin = $pluginInterfaceManager->getPlug(AopPlugin::class);
         if ($aopPlugin == null) {
-            $aopConfig = new AopConfig($serverConfig->getVendorDir() . "/go-swoole/base-server");
+            $aopConfig = new AopConfig($serverConfig->getVendorDir() . "/esd/base-server");
             $aopPlugin = new AopPlugin($aopConfig);
             $pluginInterfaceManager->addPlug($aopPlugin);
         }
@@ -80,7 +80,7 @@ class WhoopsPlugin extends AbstractPlugin
      * 在服务启动前
      * @param Context $context
      * @return mixed
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      */
     public function beforeServerStart(Context $context)
     {
@@ -96,7 +96,7 @@ class WhoopsPlugin extends AbstractPlugin
         //AOP注入
         $aopPlugin = $context->getServer()->getPlugManager()->getPlug(AopPlugin::class);
         if ($aopPlugin instanceof AopPlugin) {
-            $aopPlugin->getAopConfig()->addIncludePath($serverConfig->getVendorDir() . "/go-swoole/base-server");
+            $aopPlugin->getAopConfig()->addIncludePath($serverConfig->getVendorDir() . "/esd/base-server");
             $aopPlugin->getAopConfig()->addAspect(new WhoopsAspect($this->whoops,$this->whoopsConfig));
         } else {
             $this->error("没有添加AOP插件，Whoops无法工作");

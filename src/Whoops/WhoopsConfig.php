@@ -6,10 +6,10 @@
  * Time: 16:32
  */
 
-namespace GoSwoole\Plugins\Whoops;
+namespace ESD\Plugins\Whoops;
 
 
-use GoSwoole\BaseServer\Plugins\Config\BaseConfig;
+use ESD\BaseServer\Plugins\Config\BaseConfig;
 
 class WhoopsConfig extends BaseConfig
 {

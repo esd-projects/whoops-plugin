@@ -6,12 +6,12 @@
  * Time: 14:54
  */
 
-namespace GoSwoole\Plugins\Whoops\Aspect;
+namespace ESD\Plugins\Whoops\Aspect;
 
 use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use GoSwoole\Plugins\Whoops\WhoopsConfig;
+use ESD\Plugins\Whoops\WhoopsConfig;
 use Whoops\Run;
 
 class WhoopsAspect implements Aspect
@@ -36,7 +36,7 @@ class WhoopsAspect implements Aspect
      * around onHttpRequest
      *
      * @param MethodInvocation $invocation Invocation
-     * @Around("within(GoSwoole\BaseServer\Server\IServerPort+) && execution(public **->onHttpRequest(*))")
+     * @Around("within(ESD\BaseServer\Server\IServerPort+) && execution(public **->onHttpRequest(*))")
      * @return mixed|null
      */
     protected function aroundRequest(MethodInvocation $invocation)
