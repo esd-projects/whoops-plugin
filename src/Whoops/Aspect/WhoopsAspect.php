@@ -38,6 +38,7 @@ class WhoopsAspect implements Aspect
      * @param MethodInvocation $invocation Invocation
      * @Around("within(ESD\BaseServer\Server\IServerPort+) && execution(public **->onHttpRequest(*))")
      * @return mixed|null
+     * @throws \Throwable
      */
     protected function aroundRequest(MethodInvocation $invocation)
     {
@@ -51,6 +52,7 @@ class WhoopsAspect implements Aspect
             } else {
                 $response->end(null);
             }
+            throw $e;
         }
         return null;
     }
