@@ -8,10 +8,11 @@
 
 namespace ESD\Plugins\Whoops\Aspect;
 
+use ESD\BaseServer\Server\Server;
+use ESD\Plugins\Whoops\WhoopsConfig;
 use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use ESD\Plugins\Whoops\WhoopsConfig;
 use Whoops\Run;
 
 class WhoopsAspect implements Aspect
@@ -46,7 +47,7 @@ class WhoopsAspect implements Aspect
         try {
             $invocation->proceed();
         } catch (\Throwable $e) {
-            if ($this->whoopsConfig->isEnable()) {
+            if ($this->whoopsConfig->isEnable() && Server::$instance->getServerConfig()->isDebug()) {
                 $response->clear();
                 $response->end($this->run->handleException($e));
             } else {
