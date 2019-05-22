@@ -9,13 +9,13 @@
 namespace ESD\Plugins\Whoops\Aspect;
 
 use ESD\BaseServer\Server\Server;
+use ESD\Plugins\Aop\OrderAspect;
 use ESD\Plugins\Whoops\WhoopsConfig;
-use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
 use Whoops\Run;
 
-class WhoopsAspect implements Aspect
+class WhoopsAspect extends OrderAspect
 {
     /**
      * @var Run
@@ -56,5 +56,13 @@ class WhoopsAspect implements Aspect
             throw $e;
         }
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return "WhoopsAspect";
     }
 }
