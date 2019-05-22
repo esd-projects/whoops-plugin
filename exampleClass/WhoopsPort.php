@@ -56,4 +56,9 @@ class WhoopsPort extends ServerPort
     {
         // TODO: Implement onWsPassCustomHandshake() method.
     }
+
+    public function onWsClose(int $fd, int $reactorId)
+    {
+        // TODO: Implement onWsClose() method.
+    }
 }
