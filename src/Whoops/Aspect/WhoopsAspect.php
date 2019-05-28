@@ -8,7 +8,7 @@
 
 namespace ESD\Plugins\Whoops\Aspect;
 
-use ESD\BaseServer\Server\Server;
+use ESD\Core\Server\Server;
 use ESD\Plugins\Aop\OrderAspect;
 use ESD\Plugins\Whoops\WhoopsConfig;
 use Go\Aop\Intercept\MethodInvocation;
@@ -37,7 +37,7 @@ class WhoopsAspect extends OrderAspect
      * around onHttpRequest
      *
      * @param MethodInvocation $invocation Invocation
-     * @Around("within(ESD\BaseServer\Server\IServerPort+) && execution(public **->onHttpRequest(*))")
+     * @Around("within(ESD\Core\Server\Port\IServerPort+) && execution(public **->onHttpRequest(*))")
      * @return mixed|null
      * @throws \Throwable
      */

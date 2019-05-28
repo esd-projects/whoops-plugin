@@ -8,11 +8,11 @@
 
 namespace ESD\Plugins\Whoops;
 
-use ESD\BaseServer\Plugins\Logger\GetLogger;
-use ESD\BaseServer\Server\Context;
-use ESD\BaseServer\Server\Plugin\AbstractPlugin;
-use ESD\BaseServer\Server\Plugin\PluginInterfaceManager;
-use ESD\BaseServer\Server\Server;
+use ESD\Core\Context\Context;
+use ESD\Core\PlugIn\AbstractPlugin;
+use ESD\Core\PlugIn\PluginInterfaceManager;
+use ESD\Core\Plugins\Logger\GetLogger;
+use ESD\Core\Server\Server;
 use ESD\Plugins\Aop\AopConfig;
 use ESD\Plugins\Aop\AopPlugin;
 use ESD\Plugins\Whoops\Aspect\WhoopsAspect;
@@ -36,6 +36,7 @@ class WhoopsPlugin extends AbstractPlugin
      * @param WhoopsConfig|null $whoopsConfig
      * @throws \DI\DependencyException
      * @throws \ReflectionException
+     * @throws \DI\NotFoundException
      */
     public function __construct(?WhoopsConfig $whoopsConfig = null)
     {
@@ -63,7 +64,8 @@ class WhoopsPlugin extends AbstractPlugin
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
      * @throws \DI\DependencyException
-     * @throws \ESD\BaseServer\Exception
+     * @throws \DI\NotFoundException
+     * @throws \ESD\Core\Exception
      * @throws \ReflectionException
      */
     public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
@@ -80,15 +82,14 @@ class WhoopsPlugin extends AbstractPlugin
      * @return mixed|void
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
-     * @throws \ESD\BaseServer\Exception
-     * @throws \ESD\BaseServer\Server\Exception\ConfigException
+     * @throws \ESD\Core\Exception
      */
     public function init(Context $context)
     {
         parent::init($context);
-        $aopConfig = Server::$instance->getContainer()->get(AopConfig::class);
+        $aopConfig = DIGet(AopConfig::class);
         $this->whoopsConfig->merge();
-        $serverConfig = $context->getServer()->getServerConfig();
+        $serverConfig = Server::$instance->getServerConfig();
         $this->whoops = new Run();
         $this->whoops->writeToOutput(false);
         $this->whoops->allowQuit(false);
@@ -104,7 +105,9 @@ class WhoopsPlugin extends AbstractPlugin
      * 在服务启动前
      * @param Context $context
      * @return mixed
-     * @throws \ESD\BaseServer\Exception
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \ESD\Core\Plugins\Config\ConfigException
      */
     public function beforeServerStart(Context $context)
     {

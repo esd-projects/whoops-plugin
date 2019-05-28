@@ -9,7 +9,7 @@
 namespace ESD\Plugins\Whoops;
 
 
-use ESD\BaseServer\Plugins\Config\BaseConfig;
+use ESD\Core\Plugins\Config\BaseConfig;
 
 class WhoopsConfig extends BaseConfig
 {

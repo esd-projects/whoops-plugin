@@ -8,7 +8,7 @@
 
 namespace ESD\Plugins\Whoops\Handler;
 
-use ESD\BaseServer\Server\Beans\Request;
+use ESD\Core\Server\Beans\Request;
 use InvalidArgumentException;
 use RuntimeException;
 use UnexpectedValueException;

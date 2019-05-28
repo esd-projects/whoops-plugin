@@ -8,11 +8,12 @@
 
 namespace ESD\Plugins\Whoops\ExampleClass;
 
-use ESD\BaseServer\Exception;
-use ESD\BaseServer\Server\Beans\Request;
-use ESD\BaseServer\Server\Beans\Response;
-use ESD\BaseServer\Server\Beans\WebSocketFrame;
-use ESD\BaseServer\Server\ServerPort;
+
+use ESD\Core\Exception;
+use ESD\Core\Server\Beans\Request;
+use ESD\Core\Server\Beans\Response;
+use ESD\Core\Server\Beans\WebSocketFrame;
+use ESD\Core\Server\Port\ServerPort;
 
 class WhoopsPort extends ServerPort
 {
