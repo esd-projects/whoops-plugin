@@ -50,7 +50,7 @@ class WhoopsAspect extends OrderAspect
             if ($this->whoopsConfig->isEnable() && Server::$instance->getServerConfig()->isDebug()) {
                 $response->withContent($this->run->handleException($e));
             } else {
-                $response->withContent();
+                $response->end();
             }
             throw $e;
         }
