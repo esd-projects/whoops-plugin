@@ -48,10 +48,9 @@ class WhoopsAspect extends OrderAspect
             $invocation->proceed();
         } catch (\Throwable $e) {
             if ($this->whoopsConfig->isEnable() && Server::$instance->getServerConfig()->isDebug()) {
-                $response->clear();
-                $response->end($this->run->handleException($e));
+                $response->withContent($this->run->handleException($e));
             } else {
-                $response->end(null);
+                $response->withContent();
             }
             throw $e;
         }
