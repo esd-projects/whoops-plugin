@@ -8,6 +8,7 @@
 
 namespace ESD\Plugins\Whoops\Aspect;
 
+use ESD\Core\Server\Beans\Response;
 use ESD\Core\Server\Server;
 use ESD\Plugins\Aop\OrderAspect;
 use ESD\Plugins\Whoops\WhoopsConfig;
@@ -43,12 +44,17 @@ class WhoopsAspect extends OrderAspect
      */
     protected function aroundRequest(MethodInvocation $invocation)
     {
+        /**
+         * @var $response Response
+         */
         list($request, $response) = $invocation->getArguments();
         try {
             $invocation->proceed();
         } catch (\Throwable $e) {
             if ($this->whoopsConfig->isEnable() && Server::$instance->getServerConfig()->isDebug()) {
                 $response->withContent($this->run->handleException($e));
+            } else {
+                $response->withContent();
             }
             throw $e;
         }

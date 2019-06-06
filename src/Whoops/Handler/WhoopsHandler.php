@@ -127,9 +127,9 @@ class WhoopsHandler extends Handler
         $this->templateHelper = new TemplateHelper();
 
         if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
-            $cloner = new VarCloner();
+            $thisr = new VarCloner();
             // Only dump object internals if a custom caster exists.
-            $cloner->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
+            $thisr->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
                 $class = $stub->class;
                 $classes = [$class => $class] + class_parents($class) + class_implements($class);
 
@@ -142,7 +142,7 @@ class WhoopsHandler extends Handler
                 // Remove all internals
                 return [];
             }]);
-            $this->templateHelper->setCloner($cloner);
+            $this->templateHelper->setCloner($thisr);
         }
     }
 
@@ -165,6 +165,9 @@ class WhoopsHandler extends Handler
         $inspector = $this->getInspector();
         $frames = $this->getExceptionFrames();
         $code = $this->getExceptionCode();
+        /**
+         * @var $request Request
+         */
         $request = getContextValueByClassName(Request::class);
         // List of variables that will be passed to the layout template.
         $vars = [
@@ -206,12 +209,12 @@ class WhoopsHandler extends Handler
             "has_frames_tabs" => $this->getApplicationPaths(),
 
             "tables" => [
-                "GET Data" => $this->masked($request->get ?? [], '_GET'),
-                "POST Data" => $this->masked($request->post ?? [], '_POST'),
-                "Files" => $this->masked($request->files ?? [], '_FILES'),
-                "Cookies" => $this->masked($request->cookie ?? [], '_COOKIE'),
+                "GET Data" => $this->masked($request->getQueryParams() ?? [], '_GET'),
+                "POST Data" => $this->masked($request->getParsedBody() ?? [], '_POST'),
+                "Files" => $this->masked($request->getFiles() ?? [], '_FILES'),
+                "Cookies" => $this->masked($request->getCookieParams() ?? [], '_COOKIE'),
                 "Session" => $this->masked([], '_SESSION'),
-                "Server/Request Data" => $this->masked($request->server ?? [], '_SERVER'),
+                "Server/Request Data" => $this->masked($request->getServers() ?? [], '_SERVER'),
                 "Environment Variables" => $this->masked($_ENV, '_ENV'),
             ],
         ];
