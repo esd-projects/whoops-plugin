@@ -17,7 +17,8 @@ use Whoops\Handler\Handler;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Util\Misc;
 use Whoops\Util\TemplateHelper;
-
+use Symfony\Component\VarDumper\Cloner\AbstractCloner;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 class WhoopsHandler extends Handler
 {
     /**
@@ -127,7 +128,7 @@ class WhoopsHandler extends Handler
         $this->templateHelper = new TemplateHelper();
 
         if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
-            $thisr = new \Symfony\Component\VarDumper\Cloner\VarCloner();
+            $thisr = new VarCloner();
             // Only dump object internals if a custom caster exists.
             $thisr->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
                 $class = $stub->class;
