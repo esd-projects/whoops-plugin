@@ -127,7 +127,7 @@ class WhoopsHandler extends Handler
         $this->templateHelper = new TemplateHelper();
 
         if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
-            $thisr = new VarCloner();
+            $thisr = new \Symfony\Component\VarDumper\Cloner\VarCloner();
             // Only dump object internals if a custom caster exists.
             $thisr->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
                 $class = $stub->class;
